@@ -1,6 +1,6 @@
 {
     "name": "realmap-collection",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "리얼맵 개발에 필요한 지도 파일을 모아놓은 모듈입니다.",
     "keywords": [
         "realgrid",
@@ -24,19 +24,59 @@
         "license.txt"
     ],
     "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
-        },
-        "./js/*": {
-            "import": "./dist/js/*.js",
-            "types": "./dist/js/*.d.ts"
-        },
-        "./topojs/*": {
-            "import": "./dist/topojs/*.js",
-            "types": "./dist/topojs/*.d.ts"
-        },
-        "./*.geo.json": "./dist/geojson/*.geo.json",
-        "./*.topo.json": "./dist/topojson/*.topo.json"
+        "./china-adm1-high.geo.json": "./dist/geojson/china-adm1-high.geo.json",
+        "./china-adm1-high.topo.json": "./dist/topojson/china-adm1-high.topo.json",
+        "./china-adm1-low.geo.json": "./dist/geojson/china-adm1-low.geo.json",
+        "./china-adm1-low.topo.json": "./dist/topojson/china-adm1-low.topo.json",
+        "./china-adm1-mid.geo.json": "./dist/geojson/china-adm1-mid.geo.json",
+        "./china-adm1-mid.topo.json": "./dist/topojson/china-adm1-mid.topo.json",
+        "./continent-high.geo.json": "./dist/geojson/continent-high.geo.json",
+        "./continent-high.topo.json": "./dist/topojson/continent-high.topo.json",
+        "./continent-low.geo.json": "./dist/geojson/continent-low.geo.json",
+        "./continent-low.topo.json": "./dist/topojson/continent-low.topo.json",
+        "./continent-mid.geo.json": "./dist/geojson/continent-mid.geo.json",
+        "./continent-mid.topo.json": "./dist/topojson/continent-mid.topo.json",
+        "./japan-adm1-high.geo.json": "./dist/geojson/japan-adm1-high.geo.json",
+        "./japan-adm1-high.topo.json": "./dist/topojson/japan-adm1-high.topo.json",
+        "./japan-adm1-low.geo.json": "./dist/geojson/japan-adm1-low.geo.json",
+        "./japan-adm1-low.topo.json": "./dist/topojson/japan-adm1-low.topo.json",
+        "./japan-adm1-mid.geo.json": "./dist/geojson/japan-adm1-mid.geo.json",
+        "./japan-adm1-mid.topo.json": "./dist/topojson/japan-adm1-mid.topo.json",
+        "./korea-high.geo.json": "./dist/geojson/korea-high.geo.json",
+        "./korea-high.topo.json": "./dist/topojson/korea-high.topo.json",
+        "./korea-low.geo.json": "./dist/geojson/korea-low.geo.json",
+        "./korea-low.topo.json": "./dist/topojson/korea-low.topo.json",
+        "./korea-mid.geo.json": "./dist/geojson/korea-mid.geo.json",
+        "./korea-mid.topo.json": "./dist/topojson/korea-mid.topo.json",
+        "./kr-dong-high.geo.json": "./dist/geojson/kr-dong-high.geo.json",
+        "./kr-dong-high.topo.json": "./dist/topojson/kr-dong-high.topo.json",
+        "./kr-dong-low.geo.json": "./dist/geojson/kr-dong-low.geo.json",
+        "./kr-dong-low.topo.json": "./dist/topojson/kr-dong-low.topo.json",
+        "./kr-dong-mid.geo.json": "./dist/geojson/kr-dong-mid.geo.json",
+        "./kr-dong-mid.topo.json": "./dist/topojson/kr-dong-mid.topo.json",
+        "./kr-sido-high.geo.json": "./dist/geojson/kr-sido-high.geo.json",
+        "./kr-sido-high.topo.json": "./dist/topojson/kr-sido-high.topo.json",
+        "./kr-sido-low.geo.json": "./dist/geojson/kr-sido-low.geo.json",
+        "./kr-sido-low.topo.json": "./dist/topojson/kr-sido-low.topo.json",
+        "./kr-sido-mid.geo.json": "./dist/geojson/kr-sido-mid.geo.json",
+        "./kr-sido-mid.topo.json": "./dist/topojson/kr-sido-mid.topo.json",
+        "./kr-sigun-high.geo.json": "./dist/geojson/kr-sigun-high.geo.json",
+        "./kr-sigun-high.topo.json": "./dist/topojson/kr-sigun-high.topo.json",
+        "./kr-sigun-low.geo.json": "./dist/geojson/kr-sigun-low.geo.json",
+        "./kr-sigun-low.topo.json": "./dist/topojson/kr-sigun-low.topo.json",
+        "./kr-sigun-mid.geo.json": "./dist/geojson/kr-sigun-mid.geo.json",
+        "./kr-sigun-mid.topo.json": "./dist/topojson/kr-sigun-mid.topo.json",
+        "./world-high.geo.json": "./dist/geojson/world-high.geo.json",
+        "./world-high.topo.json": "./dist/topojson/world-high.topo.json",
+        "./world-low.geo.json": "./dist/geojson/world-low.geo.json",
+        "./world-low.topo.json": "./dist/topojson/world-low.topo.json",
+        "./world-mid.geo.json": "./dist/geojson/world-mid.geo.json",
+        "./world-mid.topo.json": "./dist/topojson/world-mid.topo.json",
+        "./usa-state-high.geo.json": "./dist/geojson/usa-state-high.geo.json",
+        "./usa-state-high.topo.json": "./dist/topojson/usa-state-high.topo.json",
+        "./usa-state-low.geo.json": "./dist/geojson/usa-state-low.geo.json",
+        "./usa-state-low.topo.json": "./dist/topojson/usa-state-low.topo.json",
+        "./usa-state-mid.geo.json": "./dist/geojson/usa-state-mid.geo.json",
+        "./usa-state-mid.topo.json": "./dist/topojson/usa-state-mid.topo.json"
     }
 }
