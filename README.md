@@ -4,6 +4,18 @@
 
 # Release Note
 
+### v1.0.7
+
+**지도 데이터를 가져오는 API가 추가되었습니다.**
+
+```js
+import { loadMap, MapNamesEnum } from 'realmap-collection';
+
+const map = await loadMap(MapNamesEnum.krDongLow, 'geojson');
+```
+
+- 위와 같이 loadMap을 통해 필요한 지도데이터를 ES 모듈로 로드할 수 있습니다.
+
 ### v1.0.6
 
 **세계지도**
