@@ -77,6 +77,7 @@
         "./usa-state-low.geo.json": "./dist/geojson/usa-state-low.geo.json",
         "./usa-state-low.topo.json": "./dist/topojson/usa-state-low.topo.json",
         "./usa-state-mid.geo.json": "./dist/geojson/usa-state-mid.geo.json",
-        "./usa-state-mid.topo.json": "./dist/topojson/usa-state-mid.topo.json"
+        "./usa-state-mid.topo.json": "./dist/topojson/usa-state-mid.topo.json",
+        ".": "./dist/index.js"
     }
 }
