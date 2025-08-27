@@ -4,6 +4,12 @@
 
 # Release Note
 
+### v1.0.15
+
+**한반도 지도**
+
+- mapBorders, excludeInternal등의 경계 관련 옵션이 해당 지도에서 적용되지 않던 문제 수정
+
 ### v1.0.14
 
 **시군구 지도**
