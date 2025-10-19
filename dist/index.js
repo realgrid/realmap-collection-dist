@@ -23,6 +23,12 @@ export const MapNamesEnum = {
   worldHigh: 'worldHigh',
   worldLow: 'worldLow',
   worldMid: 'worldMid',
+  russiaAdm1High: 'russiaAdm1High',
+  russiaAdm1Low: 'russiaAdm1Low',
+  russiaAdm1Mid: 'russiaAdm1Mid',
+  ukraineAdm1High: 'ukraineAdm1High',
+  ukraineAdm1Low: 'ukraineAdm1Low',
+  ukraineAdm1Mid: 'ukraineAdm1Mid',
   usaStateHigh: 'usaStateHigh',
   usaStateLow: 'usaStateLow',
   usaStateMid: 'usaStateMid',
@@ -126,6 +132,30 @@ export function loadMap(name, type = 'geojson') {
       return type === 'geojson'
         ? import('./js/world-mid.js').then((x) => x.default)
         : import('./topojs/world-mid.js').then((x) => x.default);
+    case 'russiaAdm1High':
+      return type === 'geojson'
+        ? import('./js/russia-adm1-high.js').then((x) => x.default)
+        : import('./topojs/russia-adm1-high.js').then((x) => x.default);
+    case 'russiaAdm1Low':
+      return type === 'geojson'
+        ? import('./js/russia-adm1-low.js').then((x) => x.default)
+        : import('./topojs/russia-adm1-low.js').then((x) => x.default);
+    case 'russiaAdm1Mid':
+      return type === 'geojson'
+        ? import('./js/russia-adm1-mid.js').then((x) => x.default)
+        : import('./topojs/russia-adm1-mid.js').then((x) => x.default);
+    case 'ukraineAdm1High':
+      return type === 'geojson'
+        ? import('./js/ukraine-adm1-high.js').then((x) => x.default)
+        : import('./topojs/ukraine-adm1-high.js').then((x) => x.default);
+    case 'ukraineAdm1Low':
+      return type === 'geojson'
+        ? import('./js/ukraine-adm1-low.js').then((x) => x.default)
+        : import('./topojs/ukraine-adm1-low.js').then((x) => x.default);
+    case 'ukraineAdm1Mid':
+      return type === 'geojson'
+        ? import('./js/ukraine-adm1-mid.js').then((x) => x.default)
+        : import('./topojs/ukraine-adm1-mid.js').then((x) => x.default);
     case 'usaStateHigh':
       return type === 'geojson'
         ? import('./js/usa-state-high.js').then((x) => x.default)

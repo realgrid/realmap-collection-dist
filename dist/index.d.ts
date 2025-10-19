@@ -23,6 +23,12 @@ export declare const MapNamesEnum: {
 	readonly worldHigh: "worldHigh";
 	readonly worldLow: "worldLow";
 	readonly worldMid: "worldMid";
+	readonly russiaAdm1High: "russiaAdm1High";
+	readonly russiaAdm1Low: "russiaAdm1Low";
+	readonly russiaAdm1Mid: "russiaAdm1Mid";
+	readonly ukraineAdm1High: "ukraineAdm1High";
+	readonly ukraineAdm1Low: "ukraineAdm1Low";
+	readonly ukraineAdm1Mid: "ukraineAdm1Mid";
 	readonly usaStateHigh: "usaStateHigh";
 	readonly usaStateLow: "usaStateLow";
 	readonly usaStateMid: "usaStateMid"
