@@ -1,1 +1,1 @@
-declare const map: GeoJson.FeatureCollection; export default map;
+declare const map: GeoJSON.FeatureCollection; export default map;

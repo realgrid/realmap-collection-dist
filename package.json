@@ -1,6 +1,6 @@
 {
     "name": "realmap-collection",
-    "version": "1.0.16",
+    "version": "1.0.17",
     "description": "리얼맵 개발에 필요한 지도 파일을 모아놓은 모듈입니다.",
     "keywords": [
         "realgrid",
@@ -90,6 +90,24 @@
         "./usa-state-low.topo.json": "./dist/topojson/usa-state-low.topo.json",
         "./usa-state-mid.geo.json": "./dist/geojson/usa-state-mid.geo.json",
         "./usa-state-mid.topo.json": "./dist/topojson/usa-state-mid.topo.json",
-        ".": "./dist/index.js"
+        "./2026-07/kr-sido-high.geo.json": "./dist/2026-07/geojson/kr-sido-high.geo.json",
+        "./2026-07/kr-sido-high.topo.json": "./dist/2026-07/topojson/kr-sido-high.topo.json",
+        "./2026-07/kr-sido-low.geo.json": "./dist/2026-07/geojson/kr-sido-low.geo.json",
+        "./2026-07/kr-sido-low.topo.json": "./dist/2026-07/topojson/kr-sido-low.topo.json",
+        "./2026-07/kr-sido-mid.geo.json": "./dist/2026-07/geojson/kr-sido-mid.geo.json",
+        "./2026-07/kr-sido-mid.topo.json": "./dist/2026-07/topojson/kr-sido-mid.topo.json",
+        "./2026-07/kr-sigun-high.geo.json": "./dist/2026-07/geojson/kr-sigun-high.geo.json",
+        "./2026-07/kr-sigun-high.topo.json": "./dist/2026-07/topojson/kr-sigun-high.topo.json",
+        "./2026-07/kr-sigun-low.geo.json": "./dist/2026-07/geojson/kr-sigun-low.geo.json",
+        "./2026-07/kr-sigun-low.topo.json": "./dist/2026-07/topojson/kr-sigun-low.topo.json",
+        "./2026-07/kr-sigun-mid.geo.json": "./dist/2026-07/geojson/kr-sigun-mid.geo.json",
+        "./2026-07/kr-sigun-mid.topo.json": "./dist/2026-07/topojson/kr-sigun-mid.topo.json",
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "dependencies": {
+        "@types/geojson": "^7946.0.8"
     }
 }

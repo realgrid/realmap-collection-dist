@@ -1,172 +1,210 @@
-export const MapNamesEnum = {
-  chinaAdm1High: 'chinaAdm1High',
-  chinaAdm1Low: 'chinaAdm1Low',
-  chinaAdm1Mid: 'chinaAdm1Mid',
-  continentHigh: 'continentHigh',
-  continentLow: 'continentLow',
-  continentMid: 'continentMid',
-  japanAdm1High: 'japanAdm1High',
-  japanAdm1Low: 'japanAdm1Low',
-  japanAdm1Mid: 'japanAdm1Mid',
-  koreaHigh: 'koreaHigh',
-  koreaLow: 'koreaLow',
-  koreaMid: 'koreaMid',
-  krDongHigh: 'krDongHigh',
-  krDongLow: 'krDongLow',
-  krDongMid: 'krDongMid',
-  krSidoHigh: 'krSidoHigh',
-  krSidoLow: 'krSidoLow',
-  krSidoMid: 'krSidoMid',
-  krSigunHigh: 'krSigunHigh',
-  krSigunLow: 'krSigunLow',
-  krSigunMid: 'krSigunMid',
-  worldHigh: 'worldHigh',
-  worldLow: 'worldLow',
-  worldMid: 'worldMid',
-  russiaAdm1High: 'russiaAdm1High',
-  russiaAdm1Low: 'russiaAdm1Low',
-  russiaAdm1Mid: 'russiaAdm1Mid',
-  ukraineAdm1High: 'ukraineAdm1High',
-  ukraineAdm1Low: 'ukraineAdm1Low',
-  ukraineAdm1Mid: 'ukraineAdm1Mid',
-  usaStateHigh: 'usaStateHigh',
-  usaStateLow: 'usaStateLow',
-  usaStateMid: 'usaStateMid',
+const MapNamesEnum = {
+    chinaAdm1High: 'chinaAdm1High',
+    chinaAdm1Low: 'chinaAdm1Low',
+    chinaAdm1Mid: 'chinaAdm1Mid',
+    continentHigh: 'continentHigh',
+    continentLow: 'continentLow',
+    continentMid: 'continentMid',
+    japanAdm1High: 'japanAdm1High',
+    japanAdm1Low: 'japanAdm1Low',
+    japanAdm1Mid: 'japanAdm1Mid',
+    koreaHigh: 'koreaHigh',
+    koreaLow: 'koreaLow',
+    koreaMid: 'koreaMid',
+    krDongHigh: 'krDongHigh',
+    krDongLow: 'krDongLow',
+    krDongMid: 'krDongMid',
+    krSidoHigh: 'krSidoHigh',
+    krSidoLow: 'krSidoLow',
+    krSidoMid: 'krSidoMid',
+    krSigunHigh: 'krSigunHigh',
+    krSigunLow: 'krSigunLow',
+    krSigunMid: 'krSigunMid',
+    worldHigh: 'worldHigh',
+    worldLow: 'worldLow',
+    worldMid: 'worldMid',
+    russiaAdm1High: 'russiaAdm1High',
+    russiaAdm1Low: 'russiaAdm1Low',
+    russiaAdm1Mid: 'russiaAdm1Mid',
+    ukraineAdm1High: 'ukraineAdm1High',
+    ukraineAdm1Low: 'ukraineAdm1Low',
+    ukraineAdm1Mid: 'ukraineAdm1Mid',
+    usaStateHigh: 'usaStateHigh',
+    usaStateLow: 'usaStateLow',
+    usaStateMid: 'usaStateMid',
 };
-
-export function loadMap(name, type = 'geojson') {
-  switch (name) {
-    case 'chinaAdm1High':
-      return type === 'geojson'
-        ? import('./js/china-adm1-high.js').then((x) => x.default)
-        : import('./topojs/china-adm1-high.js').then((x) => x.default);
-    case 'chinaAdm1Low':
-      return type === 'geojson'
-        ? import('./js/china-adm1-low.js').then((x) => x.default)
-        : import('./topojs/china-adm1-low.js').then((x) => x.default);
-    case 'chinaAdm1Mid':
-      return type === 'geojson'
-        ? import('./js/china-adm1-mid.js').then((x) => x.default)
-        : import('./topojs/china-adm1-mid.js').then((x) => x.default);
-    case 'continentHigh':
-      return type === 'geojson'
-        ? import('./js/continent-high.js').then((x) => x.default)
-        : import('./topojs/continent-high.js').then((x) => x.default);
-    case 'continentLow':
-      return type === 'geojson'
-        ? import('./js/continent-low.js').then((x) => x.default)
-        : import('./topojs/continent-low.js').then((x) => x.default);
-    case 'continentMid':
-      return type === 'geojson'
-        ? import('./js/continent-mid.js').then((x) => x.default)
-        : import('./topojs/continent-mid.js').then((x) => x.default);
-    case 'japanAdm1High':
-      return type === 'geojson'
-        ? import('./js/japan-adm1-high.js').then((x) => x.default)
-        : import('./topojs/japan-adm1-high.js').then((x) => x.default);
-    case 'japanAdm1Low':
-      return type === 'geojson'
-        ? import('./js/japan-adm1-low.js').then((x) => x.default)
-        : import('./topojs/japan-adm1-low.js').then((x) => x.default);
-    case 'japanAdm1Mid':
-      return type === 'geojson'
-        ? import('./js/japan-adm1-mid.js').then((x) => x.default)
-        : import('./topojs/japan-adm1-mid.js').then((x) => x.default);
-    case 'koreaHigh':
-      return type === 'geojson'
-        ? import('./js/korea-high.js').then((x) => x.default)
-        : import('./topojs/korea-high.js').then((x) => x.default);
-    case 'koreaLow':
-      return type === 'geojson'
-        ? import('./js/korea-low.js').then((x) => x.default)
-        : import('./topojs/korea-low.js').then((x) => x.default);
-    case 'koreaMid':
-      return type === 'geojson'
-        ? import('./js/korea-mid.js').then((x) => x.default)
-        : import('./topojs/korea-mid.js').then((x) => x.default);
-    case 'krDongHigh':
-      return type === 'geojson'
-        ? import('./js/kr-dong-high.js').then((x) => x.default)
-        : import('./topojs/kr-dong-high.js').then((x) => x.default);
-    case 'krDongLow':
-      return type === 'geojson'
-        ? import('./js/kr-dong-low.js').then((x) => x.default)
-        : import('./topojs/kr-dong-low.js').then((x) => x.default);
-    case 'krDongMid':
-      return type === 'geojson'
-        ? import('./js/kr-dong-mid.js').then((x) => x.default)
-        : import('./topojs/kr-dong-mid.js').then((x) => x.default);
-    case 'krSidoHigh':
-      return type === 'geojson'
-        ? import('./js/kr-sido-high.js').then((x) => x.default)
-        : import('./topojs/kr-sido-high.js').then((x) => x.default);
-    case 'krSidoLow':
-      return type === 'geojson'
-        ? import('./js/kr-sido-low.js').then((x) => x.default)
-        : import('./topojs/kr-sido-low.js').then((x) => x.default);
-    case 'krSidoMid':
-      return type === 'geojson'
-        ? import('./js/kr-sido-mid.js').then((x) => x.default)
-        : import('./topojs/kr-sido-mid.js').then((x) => x.default);
-    case 'krSigunHigh':
-      return type === 'geojson'
-        ? import('./js/kr-sigun-high.js').then((x) => x.default)
-        : import('./topojs/kr-sigun-high.js').then((x) => x.default);
-    case 'krSigunLow':
-      return type === 'geojson'
-        ? import('./js/kr-sigun-low.js').then((x) => x.default)
-        : import('./topojs/kr-sigun-low.js').then((x) => x.default);
-    case 'krSigunMid':
-      return type === 'geojson'
-        ? import('./js/kr-sigun-mid.js').then((x) => x.default)
-        : import('./topojs/kr-sigun-mid.js').then((x) => x.default);
-    case 'worldHigh':
-      return type === 'geojson'
-        ? import('./js/world-high.js').then((x) => x.default)
-        : import('./topojs/world-high.js').then((x) => x.default);
-    case 'worldLow':
-      return type === 'geojson'
-        ? import('./js/world-low.js').then((x) => x.default)
-        : import('./topojs/world-low.js').then((x) => x.default);
-    case 'worldMid':
-      return type === 'geojson'
-        ? import('./js/world-mid.js').then((x) => x.default)
-        : import('./topojs/world-mid.js').then((x) => x.default);
-    case 'russiaAdm1High':
-      return type === 'geojson'
-        ? import('./js/russia-adm1-high.js').then((x) => x.default)
-        : import('./topojs/russia-adm1-high.js').then((x) => x.default);
-    case 'russiaAdm1Low':
-      return type === 'geojson'
-        ? import('./js/russia-adm1-low.js').then((x) => x.default)
-        : import('./topojs/russia-adm1-low.js').then((x) => x.default);
-    case 'russiaAdm1Mid':
-      return type === 'geojson'
-        ? import('./js/russia-adm1-mid.js').then((x) => x.default)
-        : import('./topojs/russia-adm1-mid.js').then((x) => x.default);
-    case 'ukraineAdm1High':
-      return type === 'geojson'
-        ? import('./js/ukraine-adm1-high.js').then((x) => x.default)
-        : import('./topojs/ukraine-adm1-high.js').then((x) => x.default);
-    case 'ukraineAdm1Low':
-      return type === 'geojson'
-        ? import('./js/ukraine-adm1-low.js').then((x) => x.default)
-        : import('./topojs/ukraine-adm1-low.js').then((x) => x.default);
-    case 'ukraineAdm1Mid':
-      return type === 'geojson'
-        ? import('./js/ukraine-adm1-mid.js').then((x) => x.default)
-        : import('./topojs/ukraine-adm1-mid.js').then((x) => x.default);
-    case 'usaStateHigh':
-      return type === 'geojson'
-        ? import('./js/usa-state-high.js').then((x) => x.default)
-        : import('./topojs/usa-state-high.js').then((x) => x.default);
-    case 'usaStateLow':
-      return type === 'geojson'
-        ? import('./js/usa-state-low.js').then((x) => x.default)
-        : import('./topojs/usa-state-low.js').then((x) => x.default);
-    case 'usaStateMid':
-      return type === 'geojson'
-        ? import('./js/usa-state-mid.js').then((x) => x.default)
-        : import('./topojs/usa-state-mid.js').then((x) => x.default);
-  }
+function loadMap(name, type = 'geojson') {
+    switch (name) {
+        case 'chinaAdm1High':
+            return type === 'geojson'
+                ? import('./js/china-adm1-high.js').then((x) => x.default)
+                : import('./topojs/china-adm1-high.js').then((x) => x.default);
+        case 'chinaAdm1Low':
+            return type === 'geojson'
+                ? import('./js/china-adm1-low.js').then((x) => x.default)
+                : import('./topojs/china-adm1-low.js').then((x) => x.default);
+        case 'chinaAdm1Mid':
+            return type === 'geojson'
+                ? import('./js/china-adm1-mid.js').then((x) => x.default)
+                : import('./topojs/china-adm1-mid.js').then((x) => x.default);
+        case 'continentHigh':
+            return type === 'geojson'
+                ? import('./js/continent-high.js').then((x) => x.default)
+                : import('./topojs/continent-high.js').then((x) => x.default);
+        case 'continentLow':
+            return type === 'geojson'
+                ? import('./js/continent-low.js').then((x) => x.default)
+                : import('./topojs/continent-low.js').then((x) => x.default);
+        case 'continentMid':
+            return type === 'geojson'
+                ? import('./js/continent-mid.js').then((x) => x.default)
+                : import('./topojs/continent-mid.js').then((x) => x.default);
+        case 'japanAdm1High':
+            return type === 'geojson'
+                ? import('./js/japan-adm1-high.js').then((x) => x.default)
+                : import('./topojs/japan-adm1-high.js').then((x) => x.default);
+        case 'japanAdm1Low':
+            return type === 'geojson'
+                ? import('./js/japan-adm1-low.js').then((x) => x.default)
+                : import('./topojs/japan-adm1-low.js').then((x) => x.default);
+        case 'japanAdm1Mid':
+            return type === 'geojson'
+                ? import('./js/japan-adm1-mid.js').then((x) => x.default)
+                : import('./topojs/japan-adm1-mid.js').then((x) => x.default);
+        case 'koreaHigh':
+            return type === 'geojson'
+                ? import('./js/korea-high.js').then((x) => x.default)
+                : import('./topojs/korea-high.js').then((x) => x.default);
+        case 'koreaLow':
+            return type === 'geojson'
+                ? import('./js/korea-low.js').then((x) => x.default)
+                : import('./topojs/korea-low.js').then((x) => x.default);
+        case 'koreaMid':
+            return type === 'geojson'
+                ? import('./js/korea-mid.js').then((x) => x.default)
+                : import('./topojs/korea-mid.js').then((x) => x.default);
+        case 'krDongHigh':
+            return type === 'geojson'
+                ? import('./js/kr-dong-high.js').then((x) => x.default)
+                : import('./topojs/kr-dong-high.js').then((x) => x.default);
+        case 'krDongLow':
+            return type === 'geojson'
+                ? import('./js/kr-dong-low.js').then((x) => x.default)
+                : import('./topojs/kr-dong-low.js').then((x) => x.default);
+        case 'krDongMid':
+            return type === 'geojson'
+                ? import('./js/kr-dong-mid.js').then((x) => x.default)
+                : import('./topojs/kr-dong-mid.js').then((x) => x.default);
+        case 'krSidoHigh':
+            return type === 'geojson'
+                ? import('./js/kr-sido-high.js').then((x) => x.default)
+                : import('./topojs/kr-sido-high.js').then((x) => x.default);
+        case 'krSidoLow':
+            return type === 'geojson'
+                ? import('./js/kr-sido-low.js').then((x) => x.default)
+                : import('./topojs/kr-sido-low.js').then((x) => x.default);
+        case 'krSidoMid':
+            return type === 'geojson'
+                ? import('./js/kr-sido-mid.js').then((x) => x.default)
+                : import('./topojs/kr-sido-mid.js').then((x) => x.default);
+        case 'krSigunHigh':
+            return type === 'geojson'
+                ? import('./js/kr-sigun-high.js').then((x) => x.default)
+                : import('./topojs/kr-sigun-high.js').then((x) => x.default);
+        case 'krSigunLow':
+            return type === 'geojson'
+                ? import('./js/kr-sigun-low.js').then((x) => x.default)
+                : import('./topojs/kr-sigun-low.js').then((x) => x.default);
+        case 'krSigunMid':
+            return type === 'geojson'
+                ? import('./js/kr-sigun-mid.js').then((x) => x.default)
+                : import('./topojs/kr-sigun-mid.js').then((x) => x.default);
+        case 'worldHigh':
+            return type === 'geojson'
+                ? import('./js/world-high.js').then((x) => x.default)
+                : import('./topojs/world-high.js').then((x) => x.default);
+        case 'worldLow':
+            return type === 'geojson'
+                ? import('./js/world-low.js').then((x) => x.default)
+                : import('./topojs/world-low.js').then((x) => x.default);
+        case 'worldMid':
+            return type === 'geojson'
+                ? import('./js/world-mid.js').then((x) => x.default)
+                : import('./topojs/world-mid.js').then((x) => x.default);
+        case 'russiaAdm1High':
+            return type === 'geojson'
+                ? import('./js/russia-adm1-high.js').then((x) => x.default)
+                : import('./topojs/russia-adm1-high.js').then((x) => x.default);
+        case 'russiaAdm1Low':
+            return type === 'geojson'
+                ? import('./js/russia-adm1-low.js').then((x) => x.default)
+                : import('./topojs/russia-adm1-low.js').then((x) => x.default);
+        case 'russiaAdm1Mid':
+            return type === 'geojson'
+                ? import('./js/russia-adm1-mid.js').then((x) => x.default)
+                : import('./topojs/russia-adm1-mid.js').then((x) => x.default);
+        case 'ukraineAdm1High':
+            return type === 'geojson'
+                ? import('./js/ukraine-adm1-high.js').then((x) => x.default)
+                : import('./topojs/ukraine-adm1-high.js').then((x) => x.default);
+        case 'ukraineAdm1Low':
+            return type === 'geojson'
+                ? import('./js/ukraine-adm1-low.js').then((x) => x.default)
+                : import('./topojs/ukraine-adm1-low.js').then((x) => x.default);
+        case 'ukraineAdm1Mid':
+            return type === 'geojson'
+                ? import('./js/ukraine-adm1-mid.js').then((x) => x.default)
+                : import('./topojs/ukraine-adm1-mid.js').then((x) => x.default);
+        case 'usaStateHigh':
+            return type === 'geojson'
+                ? import('./js/usa-state-high.js').then((x) => x.default)
+                : import('./topojs/usa-state-high.js').then((x) => x.default);
+        case 'usaStateLow':
+            return type === 'geojson'
+                ? import('./js/usa-state-low.js').then((x) => x.default)
+                : import('./topojs/usa-state-low.js').then((x) => x.default);
+        case 'usaStateMid':
+            return type === 'geojson'
+                ? import('./js/usa-state-mid.js').then((x) => x.default)
+                : import('./topojs/usa-state-mid.js').then((x) => x.default);
+    }
 }
+
+function listMaps() {
+    return Object.values(MapNamesEnum);
+}
+
+function createSubMap(options) {
+    const { map, targets, mode, meta } = options;
+    const targetSet = new Set(targets.map((target) => String(target)));
+    const matchedTargets = new Set();
+    const isTarget = (feature) => {
+        const id = feature.properties?.['rm-id'];
+        const name = feature.properties?.['name'];
+        if (id != null && targetSet.has(String(id))) {
+            matchedTargets.add(String(id));
+            return true;
+        }
+        if (name != null && targetSet.has(String(name))) {
+            matchedTargets.add(String(name));
+            return true;
+        }
+        return false;
+    };
+    const features = map.features.filter((feature) => {
+        const matched = isTarget(feature);
+        return mode === 'include' ? matched : !matched;
+    });
+    const unmatched = targets.filter((target) => !matchedTargets.has(String(target)));
+    if (unmatched.length > 0) {
+        console.warn(`createSubMap: 매칭되지 않은 target이 있습니다 -> ${unmatched.join(', ')}`);
+    }
+    return {
+        type: 'FeatureCollection',
+        name: meta?.name ?? map.name,
+        meta,
+        features,
+    };
+}
+
+export { MapNamesEnum, createSubMap, listMaps, loadMap };
