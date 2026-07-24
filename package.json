@@ -1,6 +1,6 @@
 {
     "name": "realmap-collection",
-    "version": "1.0.17",
+    "version": "1.1.0",
     "description": "리얼맵 개발에 필요한 지도 파일을 모아놓은 모듈입니다.",
     "keywords": [
         "realgrid",
@@ -104,7 +104,8 @@
         "./2026-07/kr-sigun-mid.topo.json": "./dist/2026-07/topojson/kr-sigun-mid.topo.json",
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
         }
     },
     "dependencies": {

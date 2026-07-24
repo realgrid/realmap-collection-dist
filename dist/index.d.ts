@@ -32,6 +32,12 @@ declare const MapNamesEnum: {
     readonly usaStateHigh: "usaStateHigh";
     readonly usaStateLow: "usaStateLow";
     readonly usaStateMid: "usaStateMid";
+    readonly '2026-07/kr-sido-high': "2026-07/kr-sido-high";
+    readonly '2026-07/kr-sido-low': "2026-07/kr-sido-low";
+    readonly '2026-07/kr-sido-mid': "2026-07/kr-sido-mid";
+    readonly '2026-07/kr-sigun-high': "2026-07/kr-sigun-high";
+    readonly '2026-07/kr-sigun-low': "2026-07/kr-sigun-low";
+    readonly '2026-07/kr-sigun-mid': "2026-07/kr-sigun-mid";
 };
 type MapNames = keyof typeof MapNamesEnum;
 declare function loadMap(name: MapNames, type?: 'geojson' | 'topojson'): Promise<GeoJSON.FeatureCollection>;

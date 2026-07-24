@@ -32,6 +32,12 @@ const MapNamesEnum = {
     usaStateHigh: 'usaStateHigh',
     usaStateLow: 'usaStateLow',
     usaStateMid: 'usaStateMid',
+    '2026-07/kr-sido-high': '2026-07/kr-sido-high',
+    '2026-07/kr-sido-low': '2026-07/kr-sido-low',
+    '2026-07/kr-sido-mid': '2026-07/kr-sido-mid',
+    '2026-07/kr-sigun-high': '2026-07/kr-sigun-high',
+    '2026-07/kr-sigun-low': '2026-07/kr-sigun-low',
+    '2026-07/kr-sigun-mid': '2026-07/kr-sigun-mid',
 };
 function loadMap(name, type = 'geojson') {
     switch (name) {
@@ -167,6 +173,30 @@ function loadMap(name, type = 'geojson') {
             return type === 'geojson'
                 ? import('./js/usa-state-mid.js').then((x) => x.default)
                 : import('./topojs/usa-state-mid.js').then((x) => x.default);
+        case '2026-07/kr-sido-high':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sido-high.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sido-high.js').then((x) => x.default);
+        case '2026-07/kr-sido-low':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sido-low.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sido-low.js').then((x) => x.default);
+        case '2026-07/kr-sido-mid':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sido-mid.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sido-mid.js').then((x) => x.default);
+        case '2026-07/kr-sigun-high':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sigun-high.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sigun-high.js').then((x) => x.default);
+        case '2026-07/kr-sigun-low':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sigun-low.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sigun-low.js').then((x) => x.default);
+        case '2026-07/kr-sigun-mid':
+            return type === 'geojson'
+                ? import('./2026-07/js/kr-sigun-mid.js').then((x) => x.default)
+                : import('./2026-07/topojs/kr-sigun-mid.js').then((x) => x.default);
     }
 }
 
