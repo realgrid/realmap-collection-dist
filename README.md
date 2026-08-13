@@ -4,6 +4,38 @@
 
 # Release Note
 
+### v1.1.1
+
+**`loadMap` API 지원 중단 (deprecated)**
+
+`loadMap` 은 번들 크기 문제로 지원이 중단되었습니다. 다음 major 버전에서 제거됩니다.
+
+이 함수는 내부에 모든 지도의 동적 import 를 담고 있어서, 번들러가 실제로 사용하는 지도를 가려낼 수 없습니다. 지도를 하나만 사용해도 전체 지도가 청크로 생성됩니다. (지도 1개만 쓰는 Vite 앱 기준 산출물 35MB, 빌드 중 메모리 부족으로 실패하는 경우도 있습니다)
+
+**지도 파일을 직접 import 하는 방식으로 바꿔 주세요.** 동작은 같습니다.
+
+```js
+// 지금까지 (deprecated)
+import { loadMap, MapNamesEnum } from 'realmap-collection';
+const krSido = await loadMap(MapNamesEnum['2026-07/kr-sido-low']);
+
+// 필요한 시점에 불러오기 — loadMap 과 동일하게 동작합니다
+const krSido = await import('realmap-collection/2026-07/kr-sido-low.geo.json')
+    .then((m) => m.default);
+
+// 앱이 시작할 때 함께 불러오기
+import krSido from 'realmap-collection/2026-07/kr-sido-low.geo.json';
+```
+
+TopoJSON 은 확장자를 `.topo.json` 으로 바꾸면 됩니다.
+
+```js
+const krSido = await import('realmap-collection/2026-07/kr-sido-low.topo.json')
+    .then((m) => m.default);
+```
+
+기존 코드는 계속 동작하며, 이번 버전에서 바뀐 동작은 없습니다. 편집기에서 `loadMap` 에 지원 중단 표시가 나타납니다.
+
 ### v1.1.0
 
 **전남광주통합특별시 반영 (`2026-07` 지도 추가)**
