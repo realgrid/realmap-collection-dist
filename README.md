@@ -4,6 +4,48 @@
 
 # Release Note
 
+### v2.0.0
+
+**`loadMap` 제거 (BREAKING)**
+
+v1.1.1 에서 예고한 대로 `loadMap` 을 제거했습니다. 지도 파일을 직접 import 하거나 URL 로 참조해 주세요. 동작은 같습니다.
+
+```js
+// 필요한 시점에 불러오기 (loadMap 대체)
+const krSido = await import('realmap-collection/2026-07/kr-sido-low.geo.json')
+    .then((m) => m.default);
+
+// 앱이 시작할 때 함께 불러오기
+import krSido from 'realmap-collection/kr-sido-low.geo.json';
+```
+
+- `loadMap` 과, 그 전용 포맷이던 **js/topojs(ES Module) 지도 제공을 함께 종료**했습니다. geojson/topojson 만 제공합니다.
+- 지도 이름 목록 `MapNamesEnum`·`listMaps` 와 부분 지도 `createSubMap` 은 그대로 유지됩니다.
+
+**더미 데이터 생성 `generateDummyData` 추가**
+
+실제 데이터가 없어도 지도를 채워 먼저 그려볼 수 있는 유틸입니다. 값은 임시(placeholder)이며, 나중에 실제 데이터로 교체하는 흐름을 돕습니다.
+
+```js
+import { generateDummyData } from 'realmap-collection';
+import krSido from 'realmap-collection/kr-sido-low.geo.json';
+
+// 지역-값 (코로플레스)
+const data = await generateDummyData({ map: krSido, min: 0, max: 100 });
+
+// 경로: 서울 → 부산·제주 (지도 중앙좌표로 연결)
+const routes = await generateDummyData({
+    map: krSido,
+    series: 'route',
+    from: '서울',
+    to: ['부산', '제주'],
+});
+```
+
+- 입력은 GeoJSON 객체 또는 지도 URL. 반환 배열을 그대로 `series[].data` 에 넣습니다.
+- `series` 로 데이터 모양이 정해집니다 — map/bar/line/bubble(지역별 값) · pie(값 배열) · route(경로).
+- 좌표가 필요한 경우(route 등) 지도 area 의 중앙좌표만 사용합니다. 임의 경위도는 만들지 않습니다.
+
 ### v1.1.1
 
 **`loadMap` API 지원 중단 (deprecated)**

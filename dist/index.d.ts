@@ -40,34 +40,12 @@ declare const MapNamesEnum: {
     readonly '2026-07/kr-sigun-mid': "2026-07/kr-sigun-mid";
 };
 type MapNames = keyof typeof MapNamesEnum;
-/**
- * 지도 이름으로 지도 데이터를 비동기로 불러온다.
- *
- * @deprecated 번들 크기 문제로 지원이 중단되었다. 다음 major 버전에서 제거된다.
- *
- * 이 함수는 내부에 모든 지도의 동적 import 를 담고 있어서, 번들러가 실제로 쓰는
- * 지도를 가려낼 수 없다. 지도를 하나만 써도 전체 지도가 청크로 생성된다.
- * (실측: 지도 1개만 쓰는 Vite 앱에서 산출물 35MB, 빌드 중 힙 부족으로 실패)
- *
- * 대신 지도 파일을 직접 import 한다. 지연 로딩이 필요하면 동적 import 를 쓰면 되고,
- * 이 함수와 동작이 같다.
- *
- * ```ts
- * // 필요한 시점에 불러오기 (loadMap 대체)
- * const map = await import('realmap-collection/2026-07/kr-sido-low.geo.json')
- *     .then((m) => m.default);
- *
- * // 앱 시작할 때 함께 불러오기
- * import map from 'realmap-collection/2026-07/kr-sido-low.geo.json';
- * ```
- */
-declare function loadMap(name: MapNames, type?: 'geojson' | 'topojson'): Promise<GeoJSON.FeatureCollection>;
 
 /**
  * 사용 가능한 모든 지도 이름을 반환한다.
  *
  * 추가 API를 이런 식으로 별도 TS 파일에 작성하면,
- * 빌드 시 rollup 이 생성물(loadMap 등)과 합쳐 단일 index 로 번들한다.
+ * 빌드 시 rollup 이 생성물(MapNamesEnum)과 합쳐 단일 index 로 번들한다.
  *
  * @returns 지도 이름 배열
  */
@@ -89,7 +67,7 @@ interface CreateSubMapOptions {
 /**
  * 원본 GeoJson에서 targets에 해당하는 피처만 골라 부분 지도(SubMap)를 만든다.
  *
- * loadMap 으로 불러온 지도에서 일부 지역만 뽑아 areas 용 지도를 만들 때 사용한다.
+ * import 한 지도에서 일부 지역만 뽑아 areas 용 지도를 만들 때 사용한다.
  * 예) kr-sigun 지도에서 강릉시, 목포시만 include 하여 SubMap 을 생성.
  *
  * 매칭은 피처의 rm-id 또는 name이 targets 중 하나와 일치하는지로 판단한다.
@@ -103,5 +81,69 @@ interface CreateSubMapOptions {
  */
 declare function createSubMap(options: CreateSubMapOptions): RealMapFeatureCollection;
 
-export { MapNamesEnum, createSubMap, listMaps, loadMap };
-export type { CreateSubMapOptions, MapNames, RealMapFeatureCollection };
+/** 더미 데이터를 만들 시리즈 유형. 반환 데이터의 모양을 결정한다. */
+type DummySeries = 'map' | 'bar' | 'line' | 'bubble' | 'pie' | 'route';
+/** 지역-값 시리즈(map/bar/line/bubble) 데이터포인트. */
+interface AreaValuePoint {
+    id: string;
+    value: number;
+}
+/** pie 시리즈 데이터포인트. value는 categories 개수만큼의 값 배열. */
+interface PieValuePoint {
+    id: string;
+    value: number[];
+}
+/** route 시리즈 데이터포인트. 출발·도착 두 좌표. */
+interface RoutePoint {
+    coords: [[number, number], [number, number]];
+}
+type DummyDataPoint = AreaValuePoint | PieValuePoint | RoutePoint;
+interface GenerateDummyDataOptions {
+    /** 지도 데이터. GeoJSON FeatureCollection 객체이거나, geojson 파일 URL(fetch). */
+    map: string | GeoJSON.FeatureCollection;
+    /** 데이터 모양. 기본 'map'. */
+    series?: DummySeries;
+    /** 수치 최솟값(기본 map계열 0, pie 1). categories/route에는 무관. */
+    min?: number;
+    /** 수치 최댓값(기본 100). */
+    max?: number;
+    /** 정수로 만들지 여부(기본 true). */
+    integer?: boolean;
+    /** 값을 채울 area 개수. 생략 시 전체. (route에는 무관) */
+    count?: number;
+    /** 난수 시드(기본 42). 같은 입력이면 같은 결과. */
+    seed?: number;
+    /** series가 'pie'일 때 필수. 지역마다 이 개수만큼 값 배열을 만든다. */
+    categories?: string[];
+    /** series가 'route'일 때 출발 지역(지역명 또는 rm-id). to와 함께 쓴다. */
+    from?: string | number;
+    /** series가 'route'일 때 도착 지역들(지역명 또는 rm-id). */
+    to?: Array<string | number> | string | number;
+    /** series가 'route'일 때 [[출발,도착],...] 쌍 목록. from/to 대신 쓸 수 있다. */
+    routes?: Array<[string | number, string | number]>;
+}
+
+/**
+ * RealMap 맵차트용 더미(placeholder) 데이터를 만든다.
+ *
+ * series 유형이 반환 데이터의 모양을 결정한다.
+ *   - map/bar/line/bubble: `{ id, value }`      (min/max/integer/count)
+ *   - pie:                 `{ id, value: [...] }` (categories 필수)
+ *   - route:               `{ coords: [[경도,위도],[경도,위도]] }` (from/to 또는 routes)
+ *
+ * 좌표(route)는 지도 area의 중앙좌표만 쓴다. 임의 경위도가 필요한 요청은 만들 수 없다.
+ * 반환된 배열은 그대로 `series[].data`에 넣는다. 데이터의 id는 지도의 rm-id와 자동 연결된다.
+ *
+ * @example  // 지역-값(코로플레스)
+ *   import krSido from 'realmap-collection/kr-sido-low.geo.json';
+ *   const data = await generateDummyData({ map: krSido, min: 0, max: 100 });
+ *
+ * @example  // route: 서울 → 부산·제주 (중앙좌표로 연결)
+ *   const data = await generateDummyData({ map: krSido, series: 'route', from: '서울', to: ['부산', '제주'] });
+ *
+ * @throws 지도가 없거나, 미지원 series, 해석 불가한 지역명 등 잘못된 입력.
+ */
+declare function generateDummyData(options: GenerateDummyDataOptions): Promise<DummyDataPoint[]>;
+
+export { MapNamesEnum, createSubMap, generateDummyData, listMaps };
+export type { AreaValuePoint, CreateSubMapOptions, DummyDataPoint, DummySeries, GenerateDummyDataOptions, MapNames, PieValuePoint, RealMapFeatureCollection, RoutePoint };
