@@ -30,7 +30,7 @@ import krSido from 'realmap-collection/kr-sido-low.geo.json';
 import { generateDummyData } from 'realmap-collection';
 import krSido from 'realmap-collection/kr-sido-low.geo.json';
 
-// 지역-값 (코로플레스)
+// 지역-값 (컬러스케일)
 const data = await generateDummyData({ map: krSido, min: 0, max: 100 });
 
 // 경로: 서울 → 부산·제주 (지도 중앙좌표로 연결)

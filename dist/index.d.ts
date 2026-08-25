@@ -134,7 +134,7 @@ interface GenerateDummyDataOptions {
  * 좌표(route)는 지도 area의 중앙좌표만 쓴다. 임의 경위도가 필요한 요청은 만들 수 없다.
  * 반환된 배열은 그대로 `series[].data`에 넣는다. 데이터의 id는 지도의 rm-id와 자동 연결된다.
  *
- * @example  // 지역-값(코로플레스)
+ * @example  // 지역-값 (컬러스케일)
  *   import krSido from 'realmap-collection/kr-sido-low.geo.json';
  *   const data = await generateDummyData({ map: krSido, min: 0, max: 100 });
  *
