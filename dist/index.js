@@ -112,10 +112,10 @@ function toAreas(features) {
         const lon = p['ctr-lon'];
         const lat = p['ctr-lat'];
         const coord = typeof lon === 'number' && typeof lat === 'number' ? [lon, lat] : null;
-        const cLon = p['rm-callout-lon'];
-        const cLat = p['rm-callout-lat'];
+        const cLon = p['rm-callout-ctr-lon'];
+        const cLat = p['rm-callout-ctr-lat'];
         const calloutCoord = typeof cLon === 'number' && typeof cLat === 'number' ? [cLon, cLat] : null;
-        const calloutOffset = Array.isArray(p['rm-callout']) ? p['rm-callout'] : null;
+        const calloutOffset = Array.isArray(p['rm-callout-offset']) ? p['rm-callout-offset'] : null;
         areas.push({
             id,
             name: idValue(p.name),
@@ -263,7 +263,17 @@ function normalizeRoutePairs(options) {
     return [];
 }
 
-const DUMMY_SERIES = ['map', 'bar', 'line', 'bubble', 'waffle', 'pie', 'route'];
+const DUMMY_SERIES = [
+    'map',
+    'bar',
+    'line',
+    'bubble',
+    'waffle',
+    'pie',
+    'route',
+    'gauge',
+    'clock',
+];
 
 async function generateDummyData(options) {
     const series = options.series ?? 'map';

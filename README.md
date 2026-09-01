@@ -4,6 +4,34 @@
 
 # Release Note
 
+### v2.1.0
+
+**시도 지도에 콜아웃 좌표 추가**
+
+`kr-sido`(무버전·`2026-07`) 지도에 콜아웃 배치용 좌표 속성을 넣었습니다. 겹치기 쉬운 시도 지도에서 값 도형을 지도 밖으로 빼고 리더선으로 잇는 콜아웃 차트에 씁니다.
+
+- `rm-callout-offset` — 도형을 밀어낼 누적 변위(offset 배열).
+- `rm-callout-ctr-lon` / `rm-callout-ctr-lat` — 리더선이 붙는 앵커. 중앙좌표와 다를 때만 들어 있습니다.
+- 최상위 `meta.callout` — `radius` 등 그리기 힌트.
+
+기존 속성은 그대로라 지금 쓰던 코드에는 영향이 없습니다(속성만 추가).
+
+**`generateDummyData` 확장**
+
+- `callout: true` — 위 좌표를 각 데이터포인트에 함께 넣어 돌려줍니다(콜아웃 지원 지도에서).
+- `name` — 각 행에 지역명을 포함합니다(`pointLabel` 등에 사용).
+- `gauge`·`clock` 시리즈를 추가로 지원합니다.
+
+```js
+import { generateDummyData } from 'realmap-collection';
+import krSido from 'realmap-collection/2026-07/kr-sido-low.geo.json';
+
+// 콜아웃 좌표까지 함께 (시도 파이 차트)
+const data = await generateDummyData({
+    map: krSido, series: 'pie', categories: ['남', '여'], callout: true,
+});
+```
+
 ### v2.0.0
 
 **`loadMap` 제거 (BREAKING)**

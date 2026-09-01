@@ -81,9 +81,12 @@ interface CreateSubMapOptions {
  */
 declare function createSubMap(options: CreateSubMapOptions): RealMapFeatureCollection;
 
-/** 더미 데이터를 만들 시리즈 유형. 반환 데이터의 모양을 결정한다. */
-type DummySeries = 'map' | 'bar' | 'line' | 'bubble' | 'waffle' | 'pie' | 'route';
-/** 지역-값 시리즈(map/bar/line/bubble/waffle) 데이터포인트. */
+/**
+ * 더미 데이터를 만들 시리즈 유형. 반환 데이터의 모양을 결정한다.
+ * gauge·clock은 지역별 단일 값 시리즈다(원형 게이지·시계 게이지).
+ */
+type DummySeries = 'map' | 'bar' | 'line' | 'bubble' | 'waffle' | 'pie' | 'route' | 'gauge' | 'clock';
+/** 지역-값 시리즈(map/bar/line/bubble/waffle/gauge/clock) 데이터포인트. */
 interface AreaValuePoint {
     id: string;
     /** 지역명. pointLabel의 ${name}에 쓴다. */
@@ -127,7 +130,7 @@ interface GenerateDummyDataOptions {
     seed?: number;
     /**
      * 콜아웃(도형을 지도 밖으로 빼고 리더선으로 잇기) 좌표를 각 행에 함께 넣는다.
-     * 좌표는 지도 자체에 들어 있으므로(properties의 rm-callout 계열) 따로 넘길 게 없다.
+     * 좌표는 지도 자체에 들어 있으므로(properties의 rm-callout-* 계열) 따로 넘길 게 없다.
      * 콜아웃 좌표가 없는 지도(시군구 등)면 값만 만든다.
      *
      * 이 옵션을 켰으면 config의 그 시리즈에도 `callout: true`와 `position: 'center'`를
@@ -151,7 +154,7 @@ interface GenerateDummyDataOptions {
  * RealMap 맵차트용 더미(placeholder) 데이터를 만든다.
  *
  * series 유형이 반환 데이터의 모양을 결정한다.
- *   - map/bar/line/bubble/waffle: `{ id, value }`  (min/max/integer/count)
+ *   - map/bar/line/bubble/waffle/gauge/clock: `{ id, value }`  (min/max/integer/count)
  *   - pie:                 `{ id, value: [...] }` (categories 필수)
  *   - bar/line + categories: `{ id, value: [...] }` (지역별 다중 바/포인트)
  *   - route:               `{ coords: [[경도,위도],[경도,위도]] }` (from/to 또는 routes)
