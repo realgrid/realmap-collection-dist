@@ -112,15 +112,44 @@ function toAreas(features) {
         const lon = p['ctr-lon'];
         const lat = p['ctr-lat'];
         const coord = typeof lon === 'number' && typeof lat === 'number' ? [lon, lat] : null;
-        areas.push({ id, name: idValue(p.name), coord });
+        const cLon = p['rm-callout-lon'];
+        const cLat = p['rm-callout-lat'];
+        const calloutCoord = typeof cLon === 'number' && typeof cLat === 'number' ? [cLon, cLat] : null;
+        const calloutOffset = Array.isArray(p['rm-callout']) ? p['rm-callout'] : null;
+        areas.push({
+            id,
+            name: idValue(p.name),
+            coord,
+            sido: idValue(p.sido),
+            calloutCoord,
+            calloutOffset,
+        });
     }
     if (areas.length === 0)
         throw new Error('지도에서 area 식별자를 찾지 못했습니다.');
     return areas;
 }
-function selectAreas(areas, count, rng) {
+function selectAreas(areas, options, rng) {
+    const targets = resolveTargetAreas(areas, options.targetAreas);
+    if (targets)
+        return targets;
     const capped = areas.length > MAX_AREAS ? areas.slice(0, MAX_AREAS) : areas;
-    return pickSubset(capped, count, rng);
+    return pickSubset(capped, options.count, rng);
+}
+function resolveTargetAreas(areas, targetAreas) {
+    const refs = Array.isArray(targetAreas) ? targetAreas.filter((r) => idValue(r) != null) : [];
+    if (refs.length === 0)
+        return null;
+    const seen = new Set();
+    const result = [];
+    for (const ref of refs) {
+        const area = findArea(areas, ref);
+        if (seen.has(area.id))
+            continue;
+        seen.add(area.id);
+        result.push(area);
+    }
+    return result;
 }
 function pickSubset(areas, count, rng) {
     if (typeof count !== 'number' || count <= 0 || count >= areas.length)
@@ -132,23 +161,33 @@ function pickSubset(areas, count, rng) {
     }
     return pool.slice(0, count);
 }
-function resolveArea(areas, ref) {
+function findArea(areas, ref) {
     const s = idValue(ref);
     if (s == null)
         throw new Error('지역 참조가 비어 있습니다.');
     const byId = areas.find((a) => a.id === s);
     if (byId)
-        return requireCoord(byId, s);
-    const byName = areas.find((a) => a.name === s);
-    if (byName)
-        return requireCoord(byName, s);
+        return byId;
+    const exact = areas.filter((a) => a.name === s);
+    if (exact.length === 1)
+        return exact[0];
+    if (exact.length > 1)
+        throw ambiguousAreaError(s, exact);
     const contains = areas.filter((a) => a.name && a.name.indexOf(s) >= 0);
     if (contains.length === 1)
-        return requireCoord(contains[0], s);
-    if (contains.length > 1) {
-        throw new Error(`"${s}"가 여러 지역과 일치합니다: ${contains.map((a) => a.name).join(', ')}. rm-id로 지정하세요.`);
-    }
+        return contains[0];
+    if (contains.length > 1)
+        throw ambiguousAreaError(s, contains);
     throw new Error(`"${s}"에 해당하는 지역을 지도에서 찾지 못했습니다.`);
+}
+function ambiguousAreaError(ref, cands) {
+    const list = cands
+        .map((a) => (a.sido ? `${a.id} ${a.name}(${a.sido})` : `${a.id} ${a.name}`))
+        .join(', ');
+    return new Error(`"${ref}"가 여러 지역과 일치합니다: ${list}. rm-id로 지정하세요.`);
+}
+function resolveArea(areas, ref) {
+    return requireCoord(findArea(areas, ref), String(ref));
 }
 function requireCoord(area, ref) {
     if (!area.coord)
@@ -177,24 +216,26 @@ function buildAreaValues(areas, options, rng) {
     const integer = options.integer !== false;
     if (min > max)
         throw new Error('min이 max보다 큽니다.');
-    return selectAreas(areas, options.count, rng).map((a) => ({
+    return selectAreas(areas, options, rng).map((a) => ({
         id: a.id,
+        ...(a.name != null ? { name: a.name } : null),
         value: randValue(rng, min, max, integer),
     }));
 }
-function buildPie(areas, options, rng) {
-    const cats = Array.isArray(options.categories)
+function validCategories(options) {
+    return Array.isArray(options.categories)
         ? options.categories.filter((c) => typeof c === 'string' && c)
         : [];
-    if (cats.length === 0)
-        throw new Error("pie는 categories:['항목1','항목2',...]가 필요합니다.");
+}
+function buildValueArrays(areas, cats, options, rng) {
     const min = num(options.min, 1);
     const max = num(options.max, 100);
     const integer = options.integer !== false;
     if (min > max)
         throw new Error('min이 max보다 큽니다.');
-    return selectAreas(areas, options.count, rng).map((a) => ({
+    return selectAreas(areas, options, rng).map((a) => ({
         id: a.id,
+        ...(a.name != null ? { name: a.name } : null),
         value: cats.map(() => randValue(rng, min, max, integer)),
     }));
 }
@@ -222,7 +263,7 @@ function normalizeRoutePairs(options) {
     return [];
 }
 
-const DUMMY_SERIES = ['map', 'bar', 'line', 'bubble', 'pie', 'route'];
+const DUMMY_SERIES = ['map', 'bar', 'line', 'bubble', 'waffle', 'pie', 'route'];
 
 async function generateDummyData(options) {
     const series = options.series ?? 'map';
@@ -235,9 +276,31 @@ async function generateDummyData(options) {
     if (series === 'route')
         return buildRoutes(areas, options);
     const rng = mulberry32(num(options.seed, 42));
-    if (series === 'pie')
-        return buildPie(areas, options, rng);
-    return buildAreaValues(areas, options, rng);
+    const cats = validCategories(options);
+    if (series === 'pie' && cats.length === 0) {
+        throw new Error("pie는 categories:['항목1','항목2',...]가 필요합니다.");
+    }
+    const rows = cats.length > 0 && (series === 'pie' || series === 'bar' || series === 'line')
+        ? buildValueArrays(areas, cats, options, rng)
+        : buildAreaValues(areas, options, rng);
+    return options.callout ? attachCallout(rows, areas) : rows;
+}
+function attachCallout(rows, areas) {
+    const byId = new Map(areas.map((a) => [a.id, a]));
+    return rows.map((row) => {
+        const id = row.id;
+        const area = id != null ? byId.get(id) : undefined;
+        if (!area)
+            return row;
+        const coord = area.calloutCoord ?? area.coord;
+        if (!coord && !area.calloutOffset)
+            return row;
+        return {
+            ...row,
+            ...(coord ? { coord } : null),
+            ...(area.calloutOffset ? { offset: area.calloutOffset } : null),
+        };
+    });
 }
 
 export { MapNamesEnum, createSubMap, generateDummyData, listMaps };

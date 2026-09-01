@@ -82,22 +82,28 @@ interface CreateSubMapOptions {
 declare function createSubMap(options: CreateSubMapOptions): RealMapFeatureCollection;
 
 /** 더미 데이터를 만들 시리즈 유형. 반환 데이터의 모양을 결정한다. */
-type DummySeries = 'map' | 'bar' | 'line' | 'bubble' | 'pie' | 'route';
-/** 지역-값 시리즈(map/bar/line/bubble) 데이터포인트. */
+type DummySeries = 'map' | 'bar' | 'line' | 'bubble' | 'waffle' | 'pie' | 'route';
+/** 지역-값 시리즈(map/bar/line/bubble/waffle) 데이터포인트. */
 interface AreaValuePoint {
     id: string;
+    /** 지역명. pointLabel의 ${name}에 쓴다. */
+    name?: string;
     value: number;
 }
-/** pie 시리즈 데이터포인트. value는 categories 개수만큼의 값 배열. */
-interface PieValuePoint {
+/** 배열값 데이터포인트(pie, categories를 준 bar/line). value는 categories 개수만큼의 값 배열. */
+interface ValueArrayPoint {
     id: string;
+    /** 지역명. pointLabel의 ${name}에 쓴다. */
+    name?: string;
     value: number[];
 }
+/** @deprecated ValueArrayPoint로 개명됐다(배열값이 pie 전용이 아니게 됨). 같은 타입이다. */
+type PieValuePoint = ValueArrayPoint;
 /** route 시리즈 데이터포인트. 출발·도착 두 좌표. */
 interface RoutePoint {
     coords: [[number, number], [number, number]];
 }
-type DummyDataPoint = AreaValuePoint | PieValuePoint | RoutePoint;
+type DummyDataPoint = AreaValuePoint | ValueArrayPoint | RoutePoint;
 interface GenerateDummyDataOptions {
     /** 지도 데이터. GeoJSON FeatureCollection 객체이거나, geojson 파일 URL(fetch). */
     map: string | GeoJSON.FeatureCollection;
@@ -109,11 +115,29 @@ interface GenerateDummyDataOptions {
     max?: number;
     /** 정수로 만들지 여부(기본 true). */
     integer?: boolean;
-    /** 값을 채울 area 개수. 생략 시 전체. (route에는 무관) */
+    /** 값을 채울 area 개수. 생략 시 전체. 어느 지역이 뽑힐지는 시드 고정 랜덤이다. (route에는 무관) */
     count?: number;
+    /**
+     * 값을 만들 **대상 지역** 목록(지역명 또는 rm-id). 지정하면 이 지역들에만 값을 만든다.
+     * 데이터의 대상만 고르는 옵션이라 지도 구성은 바꾸지 않는다 — 지도에 지역을 추가하는
+     * `config.map[].areas`와는 무관하다. 지정하면 count는 무시된다. route에는 무관(끝점은 from/to로).
+     */
+    targetAreas?: Array<string | number>;
     /** 난수 시드(기본 42). 같은 입력이면 같은 결과. */
     seed?: number;
-    /** series가 'pie'일 때 필수. 지역마다 이 개수만큼 값 배열을 만든다. */
+    /**
+     * 콜아웃(도형을 지도 밖으로 빼고 리더선으로 잇기) 좌표를 각 행에 함께 넣는다.
+     * 좌표는 지도 자체에 들어 있으므로(properties의 rm-callout 계열) 따로 넘길 게 없다.
+     * 콜아웃 좌표가 없는 지도(시군구 등)면 값만 만든다.
+     *
+     * 이 옵션을 켰으면 config의 그 시리즈에도 `callout: true`와 `position: 'center'`를
+     * 넣어야 한다. 빠뜨리면 좌표가 통째로 무시되고 도형이 원위치에 그려진다(에러는 나지 않는다).
+     */
+    callout?: boolean;
+    /**
+     * 지역마다 이 개수만큼의 값 배열을 만든다. pie는 필수.
+     * bar/line은 선택 — 주면 지역별 다중 값(지역마다 여러 바/포인트)이 된다.
+     */
     categories?: string[];
     /** series가 'route'일 때 출발 지역(지역명 또는 rm-id). to와 함께 쓴다. */
     from?: string | number;
@@ -127,8 +151,9 @@ interface GenerateDummyDataOptions {
  * RealMap 맵차트용 더미(placeholder) 데이터를 만든다.
  *
  * series 유형이 반환 데이터의 모양을 결정한다.
- *   - map/bar/line/bubble: `{ id, value }`      (min/max/integer/count)
+ *   - map/bar/line/bubble/waffle: `{ id, value }`  (min/max/integer/count)
  *   - pie:                 `{ id, value: [...] }` (categories 필수)
+ *   - bar/line + categories: `{ id, value: [...] }` (지역별 다중 바/포인트)
  *   - route:               `{ coords: [[경도,위도],[경도,위도]] }` (from/to 또는 routes)
  *
  * 좌표(route)는 지도 area의 중앙좌표만 쓴다. 임의 경위도가 필요한 요청은 만들 수 없다.
@@ -138,6 +163,12 @@ interface GenerateDummyDataOptions {
  *   import krSido from 'realmap-collection/kr-sido-low.geo.json';
  *   const data = await generateDummyData({ map: krSido, min: 0, max: 100 });
  *
+ * @example  // 특정 지역에만 — targetAreas(지역명/rm-id). 지도 구성은 바꾸지 않는다
+ *   const data = await generateDummyData({ map: krSido, series: 'bar', targetAreas: ['서울', '경기', '부산'] });
+ *
+ * @example  // 지역별 다중 바 (지역마다 수출·수입 두 개의 바)
+ *   const data = await generateDummyData({ map: krSido, series: 'bar', categories: ['수출', '수입'] });
+ *
  * @example  // route: 서울 → 부산·제주 (중앙좌표로 연결)
  *   const data = await generateDummyData({ map: krSido, series: 'route', from: '서울', to: ['부산', '제주'] });
  *
@@ -146,4 +177,4 @@ interface GenerateDummyDataOptions {
 declare function generateDummyData(options: GenerateDummyDataOptions): Promise<DummyDataPoint[]>;
 
 export { MapNamesEnum, createSubMap, generateDummyData, listMaps };
-export type { AreaValuePoint, CreateSubMapOptions, DummyDataPoint, DummySeries, GenerateDummyDataOptions, MapNames, PieValuePoint, RealMapFeatureCollection, RoutePoint };
+export type { AreaValuePoint, CreateSubMapOptions, DummyDataPoint, DummySeries, GenerateDummyDataOptions, MapNames, PieValuePoint, RealMapFeatureCollection, RoutePoint, ValueArrayPoint };
