@@ -4,6 +4,23 @@
 
 # Release Note
 
+### v2.2.0
+
+**국가별 세계지도(`world`)에 대륙 id 속성 추가**
+
+`world` 지도의 각 국가에 소속 대륙의 id를 `rm-parent` 속성으로 넣었습니다. 값은 대륙별 세계지도(`continent`)의 영역 id(`africa`, `antarctica`, `asia`, `europe`, `north-america`, `oceania`, `south-america`)와 같습니다. 대륙별 세계지도에서 국가별 세계지도로 `drilldown.scope: 'selected'`를 지정해 드릴다운하면, 클릭한 대륙의 국가만 보입니다.
+
+- `continent` 값이 `Seven seas (open ocean)`인 9개 지역(ATF, SYC, HMD, SHN, MUS, IOT, MDV, SGS, CLP)은 대륙별 세계지도에 대응하는 영역이 없어 `rm-parent`가 `null`입니다. `scope: 'selected'`에서는 어느 대륙을 선택해도 보이지 않고, `scope: 'all'`에서는 그대로 보입니다.
+- `rm-parent`는 `parentKey`의 기본 속성이라 `parentKey`를 따로 지정하지 않아도 됩니다.
+- 기존 속성은 그대로라 지금 쓰던 코드에는 영향이 없습니다(속성만 추가).
+
+```js
+map: [
+    { name: '대륙', url: 'https://unpkg.com/realmap-collection/continent-low.geo.json' },
+    { name: '국가', url: 'https://unpkg.com/realmap-collection/world-low.geo.json' },
+],
+```
+
 ### v2.1.0
 
 **시도 지도에 콜아웃 좌표 추가**
