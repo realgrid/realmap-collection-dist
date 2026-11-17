@@ -4,6 +4,19 @@
 
 # Release Note
 
+### v2.3.0
+
+**국가별 세계지도(`world`)·미국 주 지도(`usa-state`)에 영문이름 속성 `en-name` 추가**
+
+두 지도는 영문이름 속성 이름이 `name-en`이어서, `en-name`을 쓰는 다른 지도와 달랐습니다. 두 지도에도 `en-name` 속성을 넣어, 영문이름이 있는 모든 지도에서 같은 속성 이름으로 영문이름을 읽을 수 있습니다.
+
+- `en-name`의 값은 기존 `name-en`과 같습니다.
+- 기존 `name-en` 속성은 그대로 들어 있어 지금 쓰던 코드에는 영향이 없습니다(속성만 추가).
+
+```js
+map: [{ url: 'https://unpkg.com/realmap-collection/world-low.geo.json', nameKey: 'en-name' }],
+```
+
 ### v2.2.0
 
 **국가별 세계지도(`world`)에 대륙 id 속성 추가**
